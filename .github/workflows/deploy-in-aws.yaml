@@ -341,73 +341,69 @@ jobs:
             fi
             echo ""
             echo "=========================================="
+      - name: Update NGINX Configuration
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
             sudo tee /etc/nginx/sites-available/master-proxy > /dev/null <<'EOF'
-              # Flask App - mceutik.ma
-              server {
-                  listen 80;
-                  server_name mceutik.ma www.mceutik.ma;
-                  return 301 https://mceutik.ma$request_uri;
-              }
-
-              server {
-                  listen 443 ssl http2;
-                  server_name mceutik.ma www.mceutik.ma;
-
-                  ssl_certificate /etc/letsencrypt/live/mceutik.ma/fullchain.pem;
-                  ssl_certificate_key /etc/letsencrypt/live/mceutik.ma/privkey.pem;
-                  
-                  ssl_protocols TLSv1.2 TLSv1.3;
-                  ssl_prefer_server_ciphers on;
-                  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
-                  
-                  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-                  add_header X-Frame-Options "SAMEORIGIN" always;
-                  add_header X-Content-Type-Options "nosniff" always;
-
-                  location / {
-                      proxy_pass http://127.0.0.1:5000;
-                      proxy_set_header Host $host;
-                      proxy_set_header X-Real-IP $remote_addr;
-                      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                      proxy_set_header X-Forwarded-Proto $scheme;
-                  }
-
-                  location /static/ {
-                      alias /home/ubuntu/mceutik/static/;
-                      expires 30d;
-                      add_header Cache-Control "public, immutable";
-                  }
-              }
-
-              # Django App - agcm.mceutik.ma
-              server {
-                  listen 80;
-                  server_name agcm.mceutik.ma;
-                  return 301 https://agcm.mceutik.ma$request_uri;
-              }
-
-              server {
-                  listen 443 ssl http2;
-                  server_name agcm.mceutik.ma;
-
-                  ssl_certificate /etc/letsencrypt/live/agcm.mceutik.ma/fullchain.pem;
-                  ssl_certificate_key /etc/letsencrypt/live/agcm.mceutik.ma/privkey.pem;
-                  
-                  ssl_protocols TLSv1.2 TLSv1.3;
-                  ssl_prefer_server_ciphers on;
-                  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
-                  
-                  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-                  add_header X-Frame-Options "SAMEORIGIN" always;
-                  add_header X-Content-Type-Options "nosniff" always;
-
-                  location / {
-                      proxy_pass http://127.0.0.1:8080;
-                      proxy_set_header Host $host;
-                      proxy_set_header X-Real-IP $remote_addr;
-                      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                      proxy_set_header X-Forwarded-Proto $scheme;
-                  }
-              }
-              EOF
-            sudo nginx -t && sudo systemctl restart nginx
+            # Flask App - mceutik.ma
+            server {
+                listen 80;
+                server_name mceutik.ma www.mceutik.ma;
+                return 301 https://mceutik.ma$request_uri;
+            }
+            server {
+                listen 443 ssl http2;
+                server_name mceutik.ma www.mceutik.ma;
+                ssl_certificate /etc/letsencrypt/live/mceutik.ma/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/mceutik.ma/privkey.pem;
+                ssl_protocols TLSv1.2 TLSv1.3;
+                ssl_prefer_server_ciphers on;
+                ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
+                add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+                add_header X-Frame-Options "SAMEORIGIN" always;
+                add_header X-Content-Type-Options "nosniff" always;
+                location / {
+                    proxy_pass http://127.0.0.1:5000;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                }
+                location /static/ {
+                    alias /home/${{ secrets.EC2_USER }}/mceutik/static/;
+                    expires 30d;
+                    add_header Cache-Control "public, immutable";
+                }
+            }
+            # Django App - agcm.mceutik.ma
+            server {
+                listen 80;
+                server_name agcm.mceutik.ma;
+                return 301 https://agcm.mceutik.ma$request_uri;
+            }
+            server {
+                listen 443 ssl http2;
+                server_name agcm.mceutik.ma;
+                ssl_certificate /etc/letsencrypt/live/agcm.mceutik.ma/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/agcm.mceutik.ma/privkey.pem;
+                ssl_protocols TLSv1.2 TLSv1.3;
+                ssl_prefer_server_ciphers on;
+                ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
+                add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+                add_header X-Frame-Options "SAMEORIGIN" always;
+                add_header X-Content-Type-Options "nosniff" always;
+                location / {
+                    proxy_pass http://127.0.0.1:8080;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                }
+            }
+            EOF
+            sudo nginx -t && sudo systemctl reload nginx
