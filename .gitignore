@@ -1,0 +1,82 @@
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.virtualenv/
+
+# Byte-compiled / cache
+*.py[cod]
+*$py.class
+
+# -------------------------
+# Environment & secrets
+# -------------------------
+.env
+.env.*
+!.env.example   # Tu peux garder un exemple vide pour la doc
+
+# -------------------------
+# Flask / SQLAlchemy
+# -------------------------
+instance/
+*.db
+*.sqlite3
+
+# -------------------------
+# OS-specific files
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Docker
+# -------------------------
+*.pid
+*.seed
+*.tar
+*.bak
+*.swp
+*.swo
+docker-compose.override.yml
+docker-compose.local.yml
+/.docker/
+.cache/
+__docker_build__/
+
+# -------------------------
+# IDEs / Editors
+# -------------------------
+.vscode/
+.idea/
+*.code-workspace
+
+# -------------------------
+# Logs & reports
+# -------------------------
+*.log
+logs/
+*.out
+
+# -------------------------
+# Tests / Coverage
+# -------------------------
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# -------------------------
+# Jupyter / Notebooks
+# -------------------------
+.ipynb_checkpoints
