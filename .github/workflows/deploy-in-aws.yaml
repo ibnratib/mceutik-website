@@ -13,6 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Clean target directory on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd /home/${{ secrets.EC2_USER }}/mceutik || mkdir -p /home/${{ secrets.EC2_USER }}/mceutik
+            cd /home/${{ secrets.EC2_USER }}/mceutik
+            # Remove only application files, keep .env and venv
+            rm -rf static/ templates/ 
+            rm -f main.py wsgi.py requirements.txt
+            mkdir -p static templates instance
+
       - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -22,8 +37,6 @@ jobs:
           port: 22
           source: "main.py,wsgi.py,requirements.txt,static/*,templates/*"
           target: /home/${{ secrets.EC2_USER }}/mceutik/
-          overwrite: true
-          rm: true
 
       - name: Create .env file
         uses: appleboy/ssh-action@v1.0.3
