@@ -33,12 +33,7 @@ jobs:
             
             # Recreate directories with proper permissions
             mkdir -p static templates instance
-            
-            # Fix permissions for NGINX to read static files
-            chmod 755 /home/${{ secrets.EC2_USER }}
-            chmod 755 /home/${{ secrets.EC2_USER }}/mceutik
-            chmod -R 755 /home/${{ secrets.EC2_USER }}/mceutik/static
-            chmod -R 755 /home/${{ secrets.EC2_USER }}/mceutik/templates
+            chmod -R 755 /home/${{ secrets.EC2_USER }}/mceutik
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.4
@@ -117,11 +112,6 @@ jobs:
             # Restart Flask service
             sudo systemctl restart mceutik
             echo "✓ Flask app restarted"
-            
-            # Fix static file permissions after deployment
-            chmod 755 /home/${{ secrets.EC2_USER }}
-            chmod 755 /home/${{ secrets.EC2_USER }}/mceutik
-            chmod -R 755 /home/${{ secrets.EC2_USER }}/mceutik/static
 
             # ==========================================
             # PART 2: Install Host NGINX (if needed)
@@ -140,7 +130,61 @@ jobs:
             fi
 
             # ==========================================
-            # PART 3: Check for SSL Certificates
+            # PART 3: Configure NGINX (HTTP first)
+            # ==========================================
+            
+            echo "Configuring NGINX..."
+            
+            # Create HTTP-only configuration (for initial setup or if certs don't exist)
+            sudo tee /etc/nginx/sites-available/master-proxy > /dev/null <<'NGINX_EOF'
+            # Flask App - mceutik.ma
+            server {
+                listen 80;
+                server_name mceutik.ma www.mceutik.ma;
+
+                location / {
+                    proxy_pass http://127.0.0.1:5000;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                }
+
+                location /static/ {
+                    alias /home/${{ secrets.EC2_USER }}/mceutik/static/;
+                    expires 30d;
+                    add_header Cache-Control "public, immutable";
+                }
+            }
+
+            # Django App - agcm.mceutik.ma (proxy to Docker NGINX)
+            server {
+                listen 80;
+                server_name agcm.mceutik.ma;
+
+                location / {
+                    proxy_pass http://127.0.0.1:8080;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                }
+            }
+            NGINX_EOF
+
+            # Enable the configuration
+            sudo ln -sf /etc/nginx/sites-available/master-proxy /etc/nginx/sites-enabled/
+            sudo rm -f /etc/nginx/sites-enabled/default
+
+            # Test and reload NGINX with HTTP config
+            sudo nginx -t
+            sudo systemctl enable nginx
+            sudo systemctl reload nginx || sudo systemctl restart nginx
+            
+            echo "✓ NGINX configured with HTTP"
+
+            # ==========================================
+            # PART 4: Obtain/Renew SSL Certificates
             # ==========================================
             
             echo "Checking SSL certificates..."
@@ -159,12 +203,34 @@ jobs:
               echo "✓ Certificate for agcm.mceutik.ma exists"
             fi
 
+            # Obtain certificates if they don't exist
+            if [ "$MCEUTIK_CERT_EXISTS" = false ]; then
+              echo "Obtaining SSL certificate for mceutik.ma..."
+              sudo certbot --nginx -d mceutik.ma -d www.mceutik.ma \
+                --non-interactive --agree-tos --email ${{ secrets.SSL_EMAIL }} \
+                --redirect || echo "⚠ Failed to get certificate for mceutik.ma"
+            fi
+
+            if [ "$AGCM_CERT_EXISTS" = false ]; then
+              echo "Obtaining SSL certificate for agcm.mceutik.ma..."
+              sudo certbot --nginx -d agcm.mceutik.ma \
+                --non-interactive --agree-tos --email ${{ secrets.SSL_EMAIL }} \
+                --redirect || echo "⚠ Failed to get certificate for agcm.mceutik.ma"
+            fi
+
+            # Renew existing certificates if they exist
+            if [ "$MCEUTIK_CERT_EXISTS" = true ] || [ "$AGCM_CERT_EXISTS" = true ]; then
+              echo "Renewing certificates..."
+              sudo certbot renew --quiet --nginx
+            fi
+
             # ==========================================
-            # PART 4: Configure NGINX with HTTPS or HTTP
+            # PART 5: Update NGINX with Full HTTPS Config
             # ==========================================
             
-            if [ "$MCEUTIK_CERT_EXISTS" = true ] && [ "$AGCM_CERT_EXISTS" = true ]; then
-              echo "Configuring NGINX with HTTPS..."
+            # Check again if certificates now exist
+            if [ -d "/etc/letsencrypt/live/mceutik.ma" ] && [ -d "/etc/letsencrypt/live/agcm.mceutik.ma" ]; then
+              echo "Creating full HTTPS configuration..."
               
               sudo tee /etc/nginx/sites-available/master-proxy > /dev/null <<'HTTPS_EOF'
             # Flask App - mceutik.ma
@@ -236,75 +302,15 @@ jobs:
             }
             HTTPS_EOF
 
-              echo "✓ HTTPS configuration created"
-              
-              # Renew certificates if needed
-              sudo certbot renew --quiet --nginx || true
-              
+              # Test and reload with HTTPS config
+              sudo nginx -t && sudo systemctl reload nginx
+              echo "✓ HTTPS enabled for both domains"
             else
-              echo "Certificates not found, configuring NGINX with HTTP-only..."
-              
-              sudo tee /etc/nginx/sites-available/master-proxy > /dev/null <<'HTTP_EOF'
-            # Flask App - mceutik.ma
-            server {
-                listen 80;
-                server_name mceutik.ma www.mceutik.ma;
-
-                location / {
-                    proxy_pass http://127.0.0.1:5000;
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                }
-
-                location /static/ {
-                    alias /home/${{ secrets.EC2_USER }}/mceutik/static/;
-                    expires 30d;
-                    add_header Cache-Control "public, immutable";
-                }
-            }
-
-            # Django App - agcm.mceutik.ma (proxy to Docker NGINX)
-            server {
-                listen 80;
-                server_name agcm.mceutik.ma;
-
-                location / {
-                    proxy_pass http://127.0.0.1:8080;
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                }
-            }
-            HTTP_EOF
-
-              echo "✓ HTTP-only configuration created"
-              
-              # Try to obtain certificates
-              echo "Attempting to obtain SSL certificates..."
-              
-              sudo certbot --nginx -d mceutik.ma -d www.mceutik.ma \
-                --non-interactive --agree-tos --email ${{ secrets.SSL_EMAIL }} \
-                --redirect || echo "⚠ Failed to get certificate for mceutik.ma"
-              
-              sudo certbot --nginx -d agcm.mceutik.ma \
-                --non-interactive --agree-tos --email ${{ secrets.SSL_EMAIL }} \
-                --redirect || echo "⚠ Failed to get certificate for agcm.mceutik.ma"
+              echo "⚠ Not all certificates available, keeping HTTP-only config"
             fi
 
-            # Enable the configuration
-            sudo ln -sf /etc/nginx/sites-available/master-proxy /etc/nginx/sites-enabled/
-            sudo rm -f /etc/nginx/sites-enabled/default
-
-            # Test and reload NGINX
-            sudo nginx -t
-            sudo systemctl enable nginx
-            sudo systemctl reload nginx || sudo systemctl restart nginx
-
             # ==========================================
-            # PART 5: Set up Auto-Renewal
+            # PART 6: Set up Auto-Renewal
             # ==========================================
             
             if [ ! -f /etc/cron.d/certbot-renew ]; then
@@ -331,7 +337,7 @@ jobs:
             sudo systemctl status nginx --no-pager -l | head -10
             echo ""
             echo "SSL Certificates:"
-            sudo certbot certificates 2>/dev/null || echo "No certificates yet"
+            sudo certbot certificates 2>/dev/null || echo "Run manually if needed"
             echo ""
             echo "Docker Containers:"
             if [ -d "/home/${{ secrets.EC2_USER }}/dealtoboost" ]; then
