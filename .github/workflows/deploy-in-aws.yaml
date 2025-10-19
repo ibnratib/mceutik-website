@@ -23,10 +23,17 @@ jobs:
           script: |
             cd /home/${{ secrets.EC2_USER }}/mceutik || mkdir -p /home/${{ secrets.EC2_USER }}/mceutik
             cd /home/${{ secrets.EC2_USER }}/mceutik
-            # Remove only application files, keep .env and venv
-            rm -rf static/ templates/ 
+            
+            # Force remove with sudo if needed
+            sudo rm -rf static/ templates/ 2>/dev/null || rm -rf static/ templates/
             rm -f main.py wsgi.py requirements.txt
+            
+            # Fix ownership
+            sudo chown -R ${{ secrets.EC2_USER }}:${{ secrets.EC2_USER }} /home/${{ secrets.EC2_USER }}/mceutik
+            
+            # Recreate directories with proper permissions
             mkdir -p static templates instance
+            chmod -R 755 /home/${{ secrets.EC2_USER }}/mceutik
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.4
