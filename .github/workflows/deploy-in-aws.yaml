@@ -1,0 +1,94 @@
+name: Deploy Flask App to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}  # Or FLASK_DEPLOY_KEY if separate
+          port: 22
+          source: "main.py,wsgi.py,requirements.txt,static/*,templates/*"
+          target: /home/${{ secrets.EC2_USER }}/mceutik/
+
+      - name: Create .env file
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}  # Or FLASK_DEPLOY_KEY
+          port: 22
+          script: |
+            cd /home/ubuntu/mceutik
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+            echo "MAIL_SERVER=${{ secrets.MAIL_SERVER }}" >> .env
+            echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> .env
+            echo "MAIL_USE_TLS=${{ secrets.MAIL_USE_TLS }}" >> .env
+            echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
+            echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+            echo "MAIL_DEFAULT_SENDER=${{ secrets.MAIL_DEFAULT_SENDER }}" >> .env
+            chmod 600 .env
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}  # Or FLASK_DEPLOY_KEY
+          port: 22
+          script: |
+            # Navigate to folder
+            cd /home/ubuntu/mceutik
+
+            # Ensure instance directory exists
+            mkdir -p instance
+
+            # Set up virtualenv if not exists
+            if [ ! -d venv ]; then
+              python3 -m venv venv
+            fi
+            source venv/bin/activate
+
+            # Install dependencies
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+            # Set up systemd service if not exists
+            if [ ! -f /etc/systemd/system/mceutik.service ]; then
+              sudo bash -c 'cat <<EOF > /etc/systemd/system/mceutik.service
+            [Unit]
+            Description=Mceutik Flask app
+            After=network.target
+
+            [Service]
+            User=ubuntu
+            Group=ubuntu
+            WorkingDirectory=/home/ubuntu/mceutik
+            Environment="PYTHONPATH=/home/ubuntu/mceutik"
+            ExecStart=/home/ubuntu/mceutik/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:5000 wsgi:application
+            Restart=always
+
+            [Install]
+            WantedBy=multi-user.target
+            EOF'
+              sudo systemctl daemon-reload
+              sudo systemctl enable mceutik
+            fi
+
+            # Restart service
+            sudo systemctl restart mceutik
+
+            # Verify
+            sudo systemctl status mceutik
