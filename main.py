@@ -70,7 +70,7 @@ def contact():
 
         # Send email
         msg = Message(subject=f"New Contact Form Submission: {subject}",
-                      recipients=['recipient-email@example.com'],  # Replace with recipient email
+                      recipients=[email],  # Replace with recipient email
                       body=f"""
                       New message from {name} ({email}):
                       Subject: {subject}
