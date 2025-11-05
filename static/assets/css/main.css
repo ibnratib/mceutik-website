@@ -158,8 +158,9 @@ h6 {
 }
 
 .header .logo img {
-  max-height: 32px;
+  max-width: 200px;
   margin-right: 8px;
+  border-radius:20px;
 }
 
 .header .logo h1 {
@@ -661,7 +662,7 @@ section,
   overflow: hidden;
   position: relative;
   /* background: linear-gradient(0deg, var(--background-color) 0%, color-mix(in srgb, var(--background-color) 90%, white 10%) 100%); */
-  background: rgb(172 28 28);
+  background: rgb(123 12 12);
   padding: 0;
   display: flex;
   flex-direction: column;
