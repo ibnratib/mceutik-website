@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div class="container position-relative">
+        <h1>Aktiv A-Z Depot</h1>
+        <p>Un multivitaminé complet pour un soutien santé quotidien.</p>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Portfolio Details Section -->
+    <section id="portfolio-details" class="portfolio-details section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4">
+            <div class="portfolio-details-slider swiper init-swiper">
+
+              <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  }
+                }
+              </script>
+
+              <div class="swiper-wrapper align-items-center" style="text-align: center!important;">
+
+                <div class="swiper-slide">
+                  <img style="max-height:500px;" src="https://pim.doppelherz.ma/ma/52841/27819/image-thumb__27819__288x288_noalpha/4009932415285_DHA_A_Z_Depot_Tbl_30_fr_52841@1.5x.89c8a2fd.webp" alt="">
+                </div>
+
+              </div>
+
+              <div class="swiper-pagination"></div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Catégorie</strong>: Complément alimentaire</li>
+                <li><strong>Nutrients</strong>:  23 vitamines (A, C, D, E, K, et groupe B)</li>
+              </ul>
+
+              <p style="line-height: 2;">
+                <strong>Description</strong>:<br>
+                23 vitamines, minéraux et oligoéléments pour la santé et le bien-être.<br>
+                Comprimé DEPOT à libération progressive et durable<br>
+                Le Doppelherz A-Z Multivitamines DEPOT est un complément alimentaire à libération progressive qui fournit des vitamines, minéraux et oligo-éléments essentiels pendant plusieurs heures. Il aide à combler les carences nutritionnelles causées par une alimentation déséquilibrée, le stress, le sport ou certaines étapes de la vie comme la grossesse et le vieillissement.
+
+                <br>Les comprimés contiennent 23 vitamines (A, C, D, E, K, et groupe B) ainsi que des minéraux et oligo-éléments (calcium, magnésium, fer, zinc, sélénium, etc.).
+
+                <br>Grâce à la technologie DEPOT, les nutriments sont libérés lentement, assurant une absorption optimale tout au long de la journée.
+
+                <br>Ce produit ne remplace pas une alimentation équilibrée mais soutient efficacement le bien-être et les performances du corps.
+
+                <br>La sécurité et les doses physiologiques sont garanties, évitant tout risque de surdosage.
+
+              </p>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Details Section -->
+{% endblock %}

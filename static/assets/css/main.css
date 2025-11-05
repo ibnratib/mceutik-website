@@ -45,7 +45,7 @@
 }
 
 .dark-background {
-  --background-color: #0ea8ac;
+  --background-color: rgb(123 12 12);
   --default-color: #ffffff;
   --heading-color: #ffffff;
   --surface-color: #12d6db;
@@ -1344,7 +1344,6 @@ section,
 --------------------------------------------------------------*/
 .team .member {
   background-color: var(--surface-color);
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -1493,9 +1492,7 @@ section,
 /*--------------------------------------------------------------
 # Portfolio Details Section
 --------------------------------------------------------------*/
-.portfolio-details .portfolio-details-slider img {
-  width: 100%;
-}
+
 
 .portfolio-details .portfolio-details-slider .swiper-pagination {
   margin-top: 20px;

@@ -49,6 +49,19 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
+# Route to serve the best products
+@app.route('/product-1')
+def product_1():
+    return render_template('product-details-1.html')
+
+@app.route('/product-2')
+def product_2():
+    return render_template('product-details-2.html')
+
+@app.route('/product-3')
+def product_3():
+    return render_template('product-details-3.html')
+
 # Route to handle contact form submission
 @app.route('/contact', methods=['POST'])
 def contact():
