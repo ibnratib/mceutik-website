@@ -45,7 +45,7 @@
 }
 
 .dark-background {
-  --background-color: #0ea8ac;
+  --background-color: rgb(123 12 12);
   --default-color: #ffffff;
   --heading-color: #ffffff;
   --surface-color: #12d6db;
@@ -158,8 +158,9 @@ h6 {
 }
 
 .header .logo img {
-  max-height: 32px;
+  max-width: 200px;
   margin-right: 8px;
+  border-radius:20px;
 }
 
 .header .logo h1 {
@@ -661,7 +662,7 @@ section,
   overflow: hidden;
   position: relative;
   /* background: linear-gradient(0deg, var(--background-color) 0%, color-mix(in srgb, var(--background-color) 90%, white 10%) 100%); */
-  background: rgb(172 28 28);
+  background: rgb(123 12 12);
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -1343,7 +1344,6 @@ section,
 --------------------------------------------------------------*/
 .team .member {
   background-color: var(--surface-color);
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -1492,9 +1492,7 @@ section,
 /*--------------------------------------------------------------
 # Portfolio Details Section
 --------------------------------------------------------------*/
-.portfolio-details .portfolio-details-slider img {
-  width: 100%;
-}
+
 
 .portfolio-details .portfolio-details-slider .swiper-pagination {
   margin-top: 20px;

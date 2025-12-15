@@ -1,68 +1,19 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Mceutik - De tout cœur pour votre santé</title>
-  <meta name="description" content="Découvrez plus de 100 ans d'expertise en compléments alimentaires pour toute la famille avec Mceutik.">
-  <meta name="keywords" content="Mceutik, compléments, vitamines, oméga-3, santé, Queisser Pharma">
-
-  <!-- Favicons -->
-  <link href="static/assets/img/favicon.png" rel="icon">
-  <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Main CSS File -->
-  <link href="static/assets/css/main.css" rel="stylesheet">
-</head>
-<body class="index-page">
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="static/assets/img/mceutik.png" alt="Logo Mceutik">
-        <h1 class="sitename">Mceutik</h1>
-      </a>
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Accueil</a></li>
-          <li><a href="#about">À propos</a></li>
-          <li><a href="#services">Produits</a></li>
-          <li><a href="#featured-products">Produits phares</a></li>
-          <li><a href="#why-choose-us">Pourquoi nous choisir</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-    </div>
-  </header>
-  <main class="main">
-    <!-- Section Héros -->
-    <section id="hero" class="hero section dark-background">
+{% extends "base.html" %}
+{% block content %}
+<section id="hero" class="hero section dark-background">
       <div id="hero-carousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
         <div class="carousel-item active">
           <div class="carousel-container">
             <h2 class="animate__animated animate__fadeInDown">Bienvenue chez <span>Mceutik</span></h2>
             <p class="animate__animated animate__fadeInUp">Plus de 100 ans d'expertise en compléments alimentaires pour la santé de votre famille.</p>
-            <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">En savoir plus</a>
+            <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto"  style="z-index:9999">En savoir plus</a>
           </div>
         </div>
         <div class="carousel-item">
           <div class="carousel-container">
             <h2 class="animate__animated animate__fadeInDown">Votre santé, notre priorité</h2>
             <p class="animate__animated animate__fadeInUp">Découvrez nos formulations innovantes développées par Queisser Pharma.</p>
-            <a href="#services" class="btn-get-started animate__animated animate__fadeInUp scrollto">Voir les produits</a>
+            <a href="#services" class="btn-get-started animate__animated animate__fadeInUp scrollto" style="z-index:9999">Voir les produits</a>
           </div>
         </div>
         <!-- <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
@@ -114,7 +65,7 @@
     <section id="services" class="services section">
       <div class="container section-title" data-aos="fade-up">
         <h2>Nos gammes / Produits</h2>
-        <p>Explorez nos compléments alimentaires soigneusement conçus pour vos besoins de santé.</p>
+        <p>Explorez nos compléments alimentaires soigneusement conçus pour vos besoins de santé</p>
       </div>
       <div class="container">
         <div class="row gy-4">
@@ -126,7 +77,7 @@
               <a href="" class="stretched-link">
                 <h3>Vitamines & Minéraux</h3>
               </a>
-              <p>Pour combler vos besoins quotidiens essentiels avec des vitamines et minéraux de haute qualité.</p>
+              <p>Pour combler vos besoins quotidiens avec des micronutrients de haute qualité</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
@@ -137,7 +88,7 @@
               <a href="" class="stretched-link">
                 <h3>Oméga-3 & Lipides</h3>
               </a>
-              <p>Soutien cardiovasculaire et cognitif avec des compléments oméga-3 premium.</p>
+              <p>Soutien cardiovasculaire et cognitif avec des compléments oméga-3 premium</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
@@ -146,9 +97,9 @@
                 <i class="bi bi-shield-check"></i>
               </div>
               <a href="" class="stretched-link">
-                <h3>Immunité & Défense cellulaire</h3>
+                <h3>Immunité</h3>
               </a>
-              <p>Renforcez vos barrières naturelles avec nos formulations pour l’immunité.</p>
+              <p>Renforcez vos barrières naturelles avec nos formulations pour l’immunité</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
@@ -159,7 +110,7 @@
               <a href="" class="stretched-link">
                 <h3>Beauté & Structure</h3>
               </a>
-              <p>Améliorez la peau, les cheveux et les articulations avec nos compléments beauté.</p>
+              <p>Améliorez la peau, les cheveux et les articulations avec nos compléments</p>
             </div>
           </div>
         </div>
@@ -176,14 +127,14 @@
 
           <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
-              <a href="product-details.html?product=aktiv-a-z-depot" class="stretched-link">
+              <a href="/product-1" class="stretched-link">
                 <img src="https://pim.doppelherz.ma/ma/52841/27819/image-thumb__27819__288x288_noalpha/4009932415285_DHA_A_Z_Depot_Tbl_30_fr_52841@1.5x.89c8a2fd.webp" class="img-fluid" alt="Aktiv A-Z Depot">
               </a>
               <div class="member-content">
                 <h4>Aktiv A-Z Depot</h4>
                 <span>Multivitaminé</span>
                 <p>Un multivitaminé complet pour un soutien santé quotidien.</p>
-                <a href="https://pim.doppelherz.ma/ma/52841/27819/image-thumb__27819__288x288_noalpha/4009932415285_DHA_A_Z_Depot_Tbl_30_fr_52841@1.5x.89c8a2fd.webp" class="btn btn-get-started btn-sm">Plus de détails</a>
+                <a href="/product-1" class="btn btn-get-started btn-sm">Plus de détails</a>
               </div>
             </div>
           </div>
@@ -191,14 +142,14 @@
 
           <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
-              <a href="product-details.html?product=aktiv-zinc-histidine" class="stretched-link">
+              <a href="/product-1" class="stretched-link">
                 <img src="https://pim.doppelherz.ma/ma/51941/25674/image-thumb__25674__288x288_noalpha/4009932415193_DHA_Capilvit__Kap_30_fr_51941@1.5x.e0755d83.webp" class="img-fluid" alt="Aktiv Zinc Histidine">
               </a>
               <div class="member-content">
                 <h4>Aktiv Zinc Histidine</h4>
                 <span>Immunité</span>
                 <p>Soutien immunitaire avec une formule riche en zinc.</p>
-                <a href="product-details.html?product=aktiv-zinc-histidine" class="btn btn-get-started btn-sm">Plus de détails</a>
+                <a href="/product-1" class="btn btn-get-started btn-sm">Plus de détails</a>
               </div>
             </div>
           </div>
@@ -206,66 +157,23 @@
 
           <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
             <div class="member">
-              <a href="" class="stretched-link">
+              <a href="/product-1" class="stretched-link">
                 <img src="https://pim.doppelherz.ma/ma/41341/25627/image-thumb__25627__288x288_noalpha/4009932414134_DHA_Aktiv_Slnium_Tbl_30_fr_41341@1.5x.2f977bb5.webp" class="img-fluid" alt="Kollagen Beauty">
               </a>
               <div class="member-content">
                 <h4>Kollagen Beauty</h4>
                 <span>Beauté</span>
-                <p>Améliore la peau et les articulations avec du collagène de qualité.</p>
-                <a href="" class="btn btn-get-started btn-sm">Plus de détails</a>
+                <p>Collagène de qualité pour votre peau et articulations.</p>
+                <a href="/product-1" class="btn btn-get-started btn-sm">Plus de détails</a>
               </div>
             </div>
           </div>
+          <div class="d-flex justify-content-center mt-2">
+  <a href="/produits" class="btn btn-get-started btn-sm">Consulter plus de produits</a>
+</div>
 
-
-          
-          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-            <div class="member">
-              <a href="product-details.html?product=aktiv-a-z-depot" class="stretched-link">
-                <img src="https://pim.doppelherz.ma/ma/52841/27819/image-thumb__27819__288x288_noalpha/4009932415285_DHA_A_Z_Depot_Tbl_30_fr_52841@1.5x.89c8a2fd.webp" class="img-fluid" alt="Aktiv A-Z Depot">
-              </a>
-              <div class="member-content">
-                <h4>Aktiv A-Z Depot</h4>
-                <span>Multivitaminé</span>
-                <p>Un multivitaminé complet pour un soutien santé quotidien.</p>
-                <a href="https://pim.doppelherz.ma/ma/52841/27819/image-thumb__27819__288x288_noalpha/4009932415285_DHA_A_Z_Depot_Tbl_30_fr_52841@1.5x.89c8a2fd.webp" class="btn btn-get-started btn-sm">Plus de détails</a>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-            <div class="member">
-              <a href="product-details.html?product=aktiv-zinc-histidine" class="stretched-link">
-                <img src="https://pim.doppelherz.ma/ma/51941/25674/image-thumb__25674__288x288_noalpha/4009932415193_DHA_Capilvit__Kap_30_fr_51941@1.5x.e0755d83.webp" class="img-fluid" alt="Aktiv Zinc Histidine">
-              </a>
-              <div class="member-content">
-                <h4>Aktiv Zinc Histidine</h4>
-                <span>Immunité</span>
-                <p>Soutien immunitaire avec une formule riche en zinc.</p>
-                <a href="product-details.html?product=aktiv-zinc-histidine" class="btn btn-get-started btn-sm">Plus de détails</a>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-            <div class="member">
-              <a href="" class="stretched-link">
-                <img src="https://pim.doppelherz.ma/ma/41341/25627/image-thumb__25627__288x288_noalpha/4009932414134_DHA_Aktiv_Slnium_Tbl_30_fr_41341@1.5x.2f977bb5.webp" class="img-fluid" alt="Kollagen Beauty">
-              </a>
-              <div class="member-content">
-                <h4>Kollagen Beauty</h4>
-                <span>Beauté</span>
-                <p>Améliore la peau et les articulations avec du collagène de qualité.</p>
-                <a href="" class="btn btn-get-started btn-sm">Plus de détails</a>
-              </div>
-            </div>
-          </div>
-
-          
         </div>
+
       </div>
     </section>
     <!-- Section Pourquoi nous choisir -->
@@ -312,126 +220,6 @@
         </div>
       </div>
     </section>
-    <!-- Section Contact -->
-    <section id="contact" class="contact section">
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Nous sommes là pour vous aider. Contactez-nous !</p>
-      </div>
-      <div class="container" data-aos="fade" data-aos-delay="100">
-        <div class="row gy-4">
-          <div class="col-lg-4">
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h3>Adresse</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
-              </div>
-            </div>
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-telephone flex-shrink-0"></i>
-              <div>
-                <h3>Appelez-nous</h3>
-                <p>+1 5589 55488 55</p>
-              </div>
-            </div>
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-envelope flex-shrink-0"></i>
-              <div>
-                <h3>Envoyez-nous un e-mail</h3>
-                <p>info@mceutik.com</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8">
-            <form id="contact-form" action="/contact" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Votre nom" required>
-                </div>
-                <div class="col-md-6">
-                  <input type="email" class="form-control" name="email" placeholder="Votre email" required>
-                </div>
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Sujet" required>
-                </div>
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                </div>
-                <div class="col-md-12 text-center">
-                  <div class="loading" style="display: none;">Chargement</div>
-                  <div class="error-message" style="display: none;"></div>
-                  <div class="sent-message" style="display: none;">Votre message a été envoyé. Merci !</div>
-                  <button type="submit">Envoyer le message</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer id="footer" class="footer light-background">
-    <div class="container">
-      <h3 class="sitename">Mceutik</h3>
-      <p>De tout cœur pour votre santé avec des solutions naturelles et innovantes.</p>
-      <div class="social-links d-flex justify-content-center">
-        <a href="https://web.facebook.com/p/Mceutik-Lab-100067519035681/?_rdc=1&_rdr#"><i class="bi bi-facebook"></i></a>
-        <a href="https://www.instagram.com/mceutik.lab/?hl=fr"><i class="bi bi-instagram"></i></a>
-      </div>
-      <div class="container">
-        <div class="copyright">
-          <span>Copyright</span> <strong class="px-1 sitename">Mceutik</strong> <span>Tous droits réservés</span>
-        </div>
-        <div class="credits">
-          Conçu par <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <div id="preloader"></div>
-  <!-- Vendor JS Files -->
-  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="static/assets/vendor/aos/aos.js"></script>
-  <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Main JS File -->
-  <script src="static/assets/js/main.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('#contact-form').on('submit', function(event) {
-        event.preventDefault();
-        var $form = $(this);
-        var $loading = $('.loading');
-        var $errorMessage = $('.error-message');
-        var $sentMessage = $('.sent-message');
-        
-        // Show loading message
-        $loading.show();
-        $errorMessage.hide();
-        $sentMessage.hide();
-        
-        $.ajax({
-          url: $form.attr('action'),
-          type: $form.attr('method'),
-          data: $form.serialize(),
-          dataType: 'json',
-          success: function(response) {
-            $loading.hide();
-            $sentMessage.show();
-            $form[0].reset(); // Reset form fields
-          },
-          error: function(xhr) {
-            $loading.hide();
-            var errorMsg = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'An error occurred. Please try again.';
-            $errorMessage.text(errorMsg).show();
-          }
-        });
-      });
-    });
-  </script>
-</body>
-</html>
+{% endblock %}
+
+

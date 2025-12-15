@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    image: alae1ajbar/mceutik:latest
+    container_name: mceutik
+    restart: unless-stopped
+    networks:
+      - mceutik-internal
+    environment:
+      FLASK_API_KEY: ${FLASK_API_KEY}
+      PORT: 4000
+    command: gunicorn --bind 0.0.0.0:4000 --workers 2 --timeout 120 app:app
+
+  nginx:
+    image: nginx:alpine
+    container_name: mceutik_nginx
+    restart: unless-stopped
+    depends_on:
+      - api
+    networks:
+      - mceutik-internal
+      - traefik-public
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.routers.mceutik.rule=Host(`mceutik.ma`)"
+      - "traefik.http.routers.mceutik.entrypoints=web"
+      - "traefik.http.routers.mceutik-secure.rule=Host(`mceutik.ma`)"
+      - "traefik.http.routers.mceutik-secure.entrypoints=websecure"
+      - "traefik.http.routers.mceutik-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.services.mceutik.loadbalancer.server.port=80"
+
+networks:
+  mceutik-internal:
+    driver: bridge
+  traefik-public:
+    external: true
