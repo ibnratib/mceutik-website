@@ -1,18 +1,26 @@
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-      <a href="/" class="logo d-flex align-items-center">
-        <img src="static/assets/img/mceutik.png" alt="Logo Mceutik">
-      </a>
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="/#hero" class="active">Accueil</a></li>
-          <li><a href="/#about">À propos</a></li>
-          <li><a href="/#services">Produits</a></li>
-          <li><a href="/#featured-products">Produits phares</a></li>
-          <li><a href="/#why-choose-us">Pourquoi nous choisir</a></li>
-          <li><a href="/#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-    </div>
-  </header>
+<!-- ================= HEADER ================= -->
+<header class="fixed top-0 w-full bg-white/90 backdrop-blur shadow z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="/"> <!-- ou '/' si tu as une route d'accueil -->
+      <img src="{{ url_for('static', filename='assets/img/mceutik.png') }}" class="h-12" alt="Mceutik">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="hidden md:flex gap-8 font-medium">
+      <a href="/#about" class="hover:text-primary">À propos</a>
+      <a href="/#gammes" class="hover:text-primary">Nos gammes</a>
+      <a href="/#products" class="hover:text-primary">Nos Produits</a>
+      <a href="/#why" class="hover:text-primary">Pourquoi nous</a>
+      <a href="/#contact" class="hover:text-primary">Contact</a>
+    </nav>
+
+    <!-- Mobile menu toggle -->
+    <i class="bi bi-list md:hidden text-3xl cursor-pointer"></i>
+  </div>
+</header>
+
+<!-- ================= CSS & JS ================= -->
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/tailwind.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap-icons.css') }}">
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>

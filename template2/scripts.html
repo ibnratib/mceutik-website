@@ -1,0 +1,42 @@
+ <!-- Vendor JS Files -->
+  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/assets/vendor/aos/aos.js"></script>
+  <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Main JS File -->
+  <script src="static/assets/js/main.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#contact-form').on('submit', function(event) {
+        event.preventDefault();
+        var $form = $(this);
+        var $loading = $('.loading');
+        var $errorMessage = $('.error-message');
+        var $sentMessage = $('.sent-message');
+        
+        // Show loading message
+        $loading.show();
+        $errorMessage.hide();
+        $sentMessage.hide();
+        
+        $.ajax({
+          url: $form.attr('action'),
+          type: $form.attr('method'),
+          data: $form.serialize(),
+          dataType: 'json',
+          success: function(response) {
+            $loading.hide();
+            $sentMessage.show();
+            $form[0].reset(); // Reset form fields
+          },
+          error: function(xhr) {
+            $loading.hide();
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'An error occurred. Please try again.';
+            $errorMessage.text(errorMsg).show();
+          }
+        });
+      });
+    });
+  </script>

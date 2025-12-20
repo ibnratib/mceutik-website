@@ -1,22 +1,20 @@
-/**
-* Template Name: Avilon
-* Template URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
-* Updated: Aug 07 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 (function() {
   "use strict";
 
   /**
-   * Apply .scrolled class to the body as the page is scrolled down
+   * Apply shadow on scroll
    */
   function toggleScrolled() {
-    const selectBody = document.querySelector('body');
-    const selectHeader = document.querySelector('#header');
-    if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
-    window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
+    const header = document.querySelector('header');
+    if (!header) return;
+    
+    if (window.scrollY > 100) {
+      header.classList.remove('bg-white/90');
+      header.classList.add('bg-white', 'shadow-md');
+    } else {
+      header.classList.remove('bg-white', 'shadow-md');
+      header.classList.add('bg-white/90');
+    }
   }
 
   document.addEventListener('scroll', toggleScrolled);
@@ -25,129 +23,79 @@
   /**
    * Mobile nav toggle
    */
-  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+  const mobileNavToggleBtn = document.querySelector('.bi-list');
+  const nav = document.querySelector('nav');
 
-  function mobileNavToogle() {
-    document.querySelector('body').classList.toggle('mobile-nav-active');
+  function mobileNavToggle() {
+    if (!nav || !mobileNavToggleBtn) return;
+    
+    // Toggle navigation visibility
+    nav.classList.toggle('hidden');
+    nav.classList.toggle('flex');
+    nav.classList.toggle('flex-col');
+    nav.classList.toggle('absolute');
+    nav.classList.toggle('top-full');
+    nav.classList.toggle('left-0');
+    nav.classList.toggle('w-full');
+    nav.classList.toggle('bg-white');
+    nav.classList.toggle('shadow-lg');
+    nav.classList.toggle('p-6');
+    
+    // Toggle icon
     mobileNavToggleBtn.classList.toggle('bi-list');
     mobileNavToggleBtn.classList.toggle('bi-x');
   }
-  mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
 
-  /**
-   * Hide mobile nav on same-page/hash links
-   */
-  document.querySelectorAll('#navmenu a').forEach(navmenu => {
-    navmenu.addEventListener('click', () => {
-      if (document.querySelector('.mobile-nav-active')) {
-        mobileNavToogle();
-      }
-    });
-
-  });
-
-  /**
-   * Toggle mobile nav dropdowns
-   */
-  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
-      e.preventDefault();
-      this.parentNode.classList.toggle('active');
-      this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
-      e.stopImmediatePropagation();
-    });
-  });
-
-  /**
-   * Preloader
-   */
-  const preloader = document.querySelector('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove();
-    });
+  if (mobileNavToggleBtn) {
+    mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
   }
 
   /**
-   * Scroll top button
+   * Hide mobile nav on link click
    */
-  let scrollTop = document.querySelector('.scroll-top');
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (nav && !nav.classList.contains('hidden') && window.innerWidth < 768) {
+        mobileNavToggle();
+      }
+    });
+  });
+
+  /**
+   * Scroll top button (si vous en ajoutez un)
+   */
+  const scrollTop = document.querySelector('.scroll-top');
 
   function toggleScrollTop() {
     if (scrollTop) {
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+
+  if (scrollTop) {
+    scrollTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
 
-  window.addEventListener('load', toggleScrollTop);
-  document.addEventListener('scroll', toggleScrollTop);
-
-  /**
-   * Animation on scroll function and init
-   */
-  function aosInit() {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
-  }
-  window.addEventListener('load', aosInit);
-
-  /**
-   * Initiate glightbox
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
-   * Frequently Asked Questions Toggle
-   */
-  document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
-    faqItem.addEventListener('click', () => {
-      faqItem.parentNode.classList.toggle('faq-active');
-    });
-  });
-
-  /**
-   * Init swiper sliders
-   */
-  function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
-      let config = JSON.parse(
-        swiperElement.querySelector(".swiper-config").innerHTML.trim()
-      );
-
-      if (swiperElement.classList.contains("swiper-tab")) {
-        initSwiperWithCustomPagination(swiperElement, config);
-      } else {
-        new Swiper(swiperElement, config);
-      }
-    });
+    window.addEventListener('load', toggleScrollTop);
+    document.addEventListener('scroll', toggleScrollTop);
   }
 
-  window.addEventListener("load", initSwiper);
-
   /**
-   * Correct scrolling position upon page load for URLs containing hash links.
+   * Correct scrolling position upon page load for URLs containing hash links
    */
   window.addEventListener('load', function(e) {
     if (window.location.hash) {
-      if (document.querySelector(window.location.hash)) {
+      const section = document.querySelector(window.location.hash);
+      if (section) {
         setTimeout(() => {
-          let section = document.querySelector(window.location.hash);
-          let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
+          const headerHeight = document.querySelector('header').offsetHeight;
           window.scrollTo({
-            top: section.offsetTop - parseInt(scrollMarginTop),
+            top: section.offsetTop - headerHeight - 20,
             behavior: 'smooth'
           });
         }, 100);
@@ -156,25 +104,50 @@
   });
 
   /**
-   * Navmenu Scrollspy
+   * Navmenu Scrollspy - Active link highlighting
    */
-  let navmenulinks = document.querySelectorAll('.navmenu a');
+  const navLinks = document.querySelectorAll('nav a');
 
-  function navmenuScrollspy() {
-    navmenulinks.forEach(navmenulink => {
-      if (!navmenulink.hash) return;
-      let section = document.querySelector(navmenulink.hash);
+  function navScrollspy() {
+    navLinks.forEach(link => {
+      if (!link.hash) return;
+      
+      const section = document.querySelector(link.hash);
       if (!section) return;
-      let position = window.scrollY + 200;
+      
+      const headerHeight = document.querySelector('header').offsetHeight;
+      const position = window.scrollY + headerHeight + 50;
+      
       if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
-        navmenulink.classList.add('active');
+        navLinks.forEach(l => l.classList.remove('text-primary', 'font-semibold'));
+        link.classList.add('text-primary', 'font-semibold');
       } else {
-        navmenulink.classList.remove('active');
+        link.classList.remove('text-primary', 'font-semibold');
       }
-    })
+    });
   }
-  window.addEventListener('load', navmenuScrollspy);
-  document.addEventListener('scroll', navmenuScrollspy);
+
+  window.addEventListener('load', navScrollspy);
+  document.addEventListener('scroll', navScrollspy);
+
+  /**
+   * Smooth scroll for anchor links
+   */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      
+      const section = document.querySelector(href);
+      if (section) {
+        e.preventDefault();
+        const headerHeight = document.querySelector('header').offsetHeight;
+        window.scrollTo({
+          top: section.offsetTop - headerHeight - 20,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
 
 })();

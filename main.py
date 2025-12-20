@@ -1,22 +1,35 @@
-from flask import Flask, render_template, request, jsonify
+"""
+Application Flask pour la gestion des produits Doppelherz
+"""
+import os
+import json
+from datetime import datetime
+
+from flask import Flask, render_template, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
-from datetime import datetime
 from dotenv import load_dotenv
-import os
 
-# Charger les variables d'environnement depuis .env
+# Charger les variables d'environnement
 load_dotenv()
+
+# =============================================================================
+# INITIALISATION DE L'APPLICATION
+# =============================================================================
 
 app = Flask(__name__)
 
-# --- Configuration de la base de données ---
+# =============================================================================
+# CONFIGURATION
+# =============================================================================
+
+# Configuration de la base de données
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.getenv('DATABASE_URL') or 'sqlite:///default.db'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# --- Configuration de Flask-Mail ---
+# Configuration de Flask-Mail
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True').lower() in ['true', '1', 'yes']
@@ -24,12 +37,38 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
-# Initialize extensions
+# =============================================================================
+# CHARGEMENT DES DONNÉES
+# =============================================================================
+
+def load_json_file(filename):
+    """Charge un fichier JSON et retourne son contenu"""
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Attention: Le fichier {filename} n'a pas été trouvé.")
+        return []
+    except json.JSONDecodeError:
+        print(f"Erreur: Le fichier {filename} contient du JSON invalide.")
+        return []
+
+PRODUITS = load_json_file('produits_doppelherz.json')
+PRODUITS_WITH_DETAILS = load_json_file('details_produits.json')
+
+# =============================================================================
+# INITIALISATION DES EXTENSIONS
+# =============================================================================
+
 db = SQLAlchemy(app)
 mail = Mail(app)
 
-# Database model for contact form submissions
+# =============================================================================
+# MODÈLES DE BASE DE DONNÉES
+# =============================================================================
+
 class Contact(db.Model):
+    """Modèle pour les soumissions du formulaire de contact"""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), nullable=False)
@@ -40,105 +79,112 @@ class Contact(db.Model):
     def __repr__(self):
         return f'<Contact {self.name}>'
 
-# Create the database tables
+# Créer les tables de la base de données
 with app.app_context():
     db.create_all()
 
-# Route to serve the homepage
+# =============================================================================
+# ROUTES - PAGE D'ACCUEIL
+# =============================================================================
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    """Page d'accueil avec les 6 premiers produits"""
+    return render_template('index.html', produits=PRODUITS[:6])
 
-# Route to serve the best products
-@app.route('/product-1')
-def product_1():
-    return render_template('product-details-1.html')
 
-@app.route('/product-2')
-def product_2():
-    return render_template('product-details-2.html')
-
-@app.route('/product-3')
-def product_3():
-    return render_template('product-details-3.html')
+# =============================================================================
+# ROUTES - PAGES PRODUITS DYNAMIQUES
+# =============================================================================
 
 @app.route('/produits')
 def produits():
-    # Liste complète des produits :
+    """Page listant tous les produits"""
+    produits_list = load_json_file('produits_doppelherz.json')
+    return render_template('produits1.html', produits=produits_list)
 
-    # A-Z Depot - Multivitaminé (30 comprimés)
-    # Aktiv Detox - Détoxification (30 gélules) - NOUVEAU
-    # Aktiv-Oméga-3 - Santé cardiovasculaire (60 gélules)
-    # Aktiv-Sélénium - Système immunitaire (30 comprimés)
-    # Capilvit - Cheveux, peau, ongles (30 gélules)
-    # Coenzyme Q10 - Énergie cellulaire (30 gélules)
-    # Harmonivit - Équilibre nerveux (30 comprimés)
-    # IMMUN Junior - Immunité enfants (200ml)
-    # KOLLAGEN BEAUTY - Collagène beauté (30 flacons)
-    # Lacto-Pro - Probiotique (20 gélules)
-    # Magnésium - Fonction musculaire (30 comprimés)
-    # Magnésium Nuit - Sommeil (30 comprimés) - NOUVEAU
-    # Mémovit - Mémoire et concentration (30 gélules)
-    # Men Aktiv - Vitalité masculine (30 gélules)
-    # Omega-3 Junior - Oméga-3 enfants (150ml)
-    # Osseovit - Os et articulations (30 comprimés)
-    # Prostacalm - Confort prostatique (30 gélules)
-    # Uricalm - Confort urinaire (30 comprimés)
-    # Vital Yeux - Santé oculaire (30 gélules)
-    # Zinc + Histidine - Immunité (30 comprimés)
-    return render_template('produits.html')
+@app.route('/produit/<slug>')
+def produit_detail(slug):
+    """Page de détail d'un produit basée sur son slug"""
+    produit = next(
+        (p for p in PRODUITS_WITH_DETAILS if p.get('slug') == slug), 
+        None
+    )
+    
+    if not produit:
+        abort(404)
+    
+    return render_template('portfolio-details.html', produit=produit)
 
-# Route to handle contact form submission
+# =============================================================================
+# ROUTES - FORMULAIRE DE CONTACT
+# =============================================================================
+
 @app.route('/contact', methods=['POST'])
 def contact():
+    """Gère la soumission du formulaire de contact"""
     try:
-        # Extract form data
-        name = request.form['name']
-        email = request.form['email']
-        subject = request.form['subject']
-        message = request.form['message']
+        # Extraction des données du formulaire
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip()
+        subject = request.form.get('subject', '').strip()
+        message = request.form.get('message', '').strip()
 
-        # Validate required fields
+        # Validation des champs requis
         if not all([name, email, subject, message]):
-            return jsonify({'error': 'All fields are required.'}), 400
+            return jsonify({'error': 'Tous les champs sont requis.'}), 400
 
-        # Store in database
-        contact_entry = Contact(name=name, email=email, subject=subject, message=message)
+        # Sauvegarde dans la base de données
+        contact_entry = Contact(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+        )
         db.session.add(contact_entry)
         db.session.commit()
 
-        # Send email
-        msg = Message(subject=f"New Contact Form Submission: {subject}",
-                      recipients=[email],  # Replace with recipient email
-                      body=f"""
-                      New message from {name} ({email}):
-                      Subject: {subject}
-                      Message: {message}
-                      Submitted on: {datetime.utcnow()}
-                      """)
+        # Envoi de l'email
+        msg = Message(
+            subject=f"Nouvelle soumission: {subject}",
+            recipients=[app.config['MAIL_DEFAULT_SENDER']],
+            body=f"""
+            Nouveau message de {name} ({email}):
+            
+            Sujet: {subject}
+            
+            Message:
+            {message}
+            
+            Soumis le: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
+            """
+        )
         mail.send(msg)
 
-        return jsonify({'message': 'Your message has been sent. Thank you!'}), 200
+        return jsonify({'message': 'Votre message a été envoyé. Merci!'}), 200
 
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+        app.logger.error(f"Erreur lors de la soumission du contact: {str(e)}")
+        return jsonify({'error': 'Une erreur est survenue lors de l\'envoi.'}), 500
 
+# =============================================================================
+# GESTIONNAIRES D'ERREURS
+# =============================================================================
 
-import scraping_products_details as data_products
-import json
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     """Gestionnaire d'erreur 404"""
+#     return render_template('404.html'), 404
 
-scraper = data_products.DoppelherzScraper()
+# @app.errorhandler(500)
+# def internal_server_error(e):
+#     """Gestionnaire d'erreur 500"""
+#     return render_template('500.html'), 500
 
-# Option 1: Scraper un seul produit
-product_url = "https://www.doppelherz.ma/fr/produits/doppelherz-aktiv-capilvit"
-product = scraper.scrape_product(product_url)
-
-# Sauvegarder un seul produit
-with open('single_product.json', 'w', encoding='utf-8') as f:
-    json.dump(product, f, ensure_ascii=False, indent=2)
+# =============================================================================
+# POINT D'ENTRÉE
+# =============================================================================
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="pt-28 pb-16 bg-gradient-to-br from-primary to-red-700 text-white">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Nos Produits</h1>
+    <p class="text-lg text-white/90 max-w-2xl mx-auto mb-8">
+      Découvrez notre gamme complète de compléments alimentaires
+    </p>
+    <nav class="text-sm opacity-90">
+      <a href="/" class="hover:underline">Accueil</a>
+      <span class="mx-2">/</span>
+      <span class="text-white/80">Produits</span>
+    </nav>
+  </div>
+</section>
+
+<!-- ================= PRODUITS ================= -->
+<section class="py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6  text-center">
+
+    <div class="text-center mb-14">
+      <h2 class="text-3xl font-bold text-primary mb-4">Tous nos produits</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Une sélection complète pour votre santé et votre bien-être.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for produit in produits %}
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 overflow-hidden relative">
+
+        {% if produit.sticker == "Nouveau !" %}
+        <span class="absolute top-3 right-3 z-10 px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded-full">
+          Nouveau
+        </span>
+        {% endif %}
+
+        <a href="/produit/{{ produit.slug }}" target="_blank">
+          <img src="{{ produit.image_url }}"
+               alt="{{ produit.title }}"
+               loading="lazy"
+               class="w-full h-64 object-cover">
+        </a>
+
+        <div class="p-6">
+          <p class="text-xs text-gray-400 mb-1">{{ produit.brand }}</p>
+
+          <h4 class="text-lg font-bold text-gray-900 leading-snug mb-2">
+            {{ produit.title }}
+          </h4>
+
+          <p class="text-sm text-gray-600">{{ produit.type }}</p>
+          <p class="text-sm text-gray-600 mb-4">{{ produit.size }}</p>
+
+          <a href="/produit/{{ produit.slug }}"
+             target="_blank"
+             class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition">
+            Détails
+            <i class="bi bi-arrow-right text-sm"></i>
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
