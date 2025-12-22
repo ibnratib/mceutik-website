@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="hero" class="hero section dark-background">
+      <div id="hero-carousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-item active">
+          <div class="carousel-container">
+            <h2 class="animate__animated animate__fadeInDown">Bienvenue chez <span>Mceutik</span></h2>
+            <p class="animate__animated animate__fadeInUp">Plus de 100 ans d'expertise en compléments alimentaires pour la santé de votre famille.</p>
+            <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto"  style="z-index:9999">En savoir plus</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="carousel-container">
+            <h2 class="animate__animated animate__fadeInDown">Votre santé, notre priorité</h2>
+            <p class="animate__animated animate__fadeInUp">Découvrez nos formulations innovantes développées par Queisser Pharma.</p>
+            <a href="#services" class="btn-get-started animate__animated animate__fadeInUp scrollto" style="z-index:9999">Voir les produits</a>
+          </div>
+        </div>
+        <!-- <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-prev-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a> -->
+      </div>
+      <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28 " preserveAspectRatio="none">
+        <defs>
+          <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+        </defs>
+        <g class="wave1">
+          <use xlink:href="#wave-path" x="50" y="3"></use>
+        </g>
+        <g class="wave2">
+          <use xlink:href="#wave-path" x="50" y="0"></use>
+        </g>
+        <g class="wave3">
+          <use xlink:href="#wave-path" x="50" y="9"></use>
+        </g>
+      </svg>
+    </section>
+    <!-- Section À propos -->
+    <section id="about" class="about section">
+      <div class="container">
+        <div class="row position-relative">
+          <div class="col-lg-7 about-img" data-aos="zoom-out" data-aos-delay="200">
+            <img src="static/assets/img/csm_doppelherz.de_marke_gesundheit_fuer_die_ganze_familie_e86fdcf59c.webp" alt="Laboratoire Mceutik">
+          </div>
+          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+            <h2 class="inner-title">À propos de Mceutik</h2>
+            <div class="our-story">
+              <h4>Créé en 1922</h4>
+              <h3>Notre histoire</h3>
+              <p>Mceutik accompagne le bien-être des familles depuis plus d’un siècle. Nos gammes comprennent des vitamines, minéraux, oméga-3 et des formulations innovantes développées par le département scientifique de Queisser Pharma. Nous privilégions la qualité des matières premières et des formes galéniques adaptées à tous (comprimés, gélules, microgranules, ampoules).</p>
+              <ul>
+                <li><i class="bi bi-check-circle"></i> <span>Plus de 100 ans d’expertise</span></li>
+                <li><i class="bi bi-check-circle"></i> <span>Formulations basées sur la recherche scientifique</span></li>
+                <li><i class="bi bi-check-circle"></i> <span>Variété de formes galéniques</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section Services/Produits -->
+    <section id="services" class="services section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Nos gammes / Produits</h2>
+        <p>Explorez nos compléments alimentaires soigneusement conçus pour vos besoins de santé</p>
+      </div>
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-capsule"></i>
+              </div>
+              <a href="" class="stretched-link">
+                <h3>Vitamines & Minéraux</h3>
+              </a>
+              <p>Pour combler vos besoins quotidiens avec des micronutrients de haute qualité</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-droplet"></i>
+              </div>
+              <a href="" class="stretched-link">
+                <h3>Oméga-3 & Lipides</h3>
+              </a>
+              <p>Soutien cardiovasculaire et cognitif avec des compléments oméga-3 premium</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <a href="" class="stretched-link">
+                <h3>Immunité</h3>
+              </a>
+              <p>Renforcez vos barrières naturelles avec nos formulations pour l’immunité</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-brush"></i>
+              </div>
+              <a href="" class="stretched-link">
+                <h3>Beauté & Structure</h3>
+              </a>
+              <p>Améliorez la peau, les cheveux et les articulations avec nos compléments</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section Produits phares -->
+    <section id="featured-products" class="team section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Produits phares</h2>
+        <p>Découvrez nos produits stars conçus pour votre bien-être.</p>
+      </div>
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div class="member">
+              <a href="/product-1" class="stretched-link">
+                <img src="https://pim.doppelherz.ma/ma/52841/27819/image-thumb__27819__288x288_noalpha/4009932415285_DHA_A_Z_Depot_Tbl_30_fr_52841@1.5x.89c8a2fd.webp" class="img-fluid" alt="Aktiv A-Z Depot">
+              </a>
+              <div class="member-content">
+                <h4>Aktiv A-Z Depot</h4>
+                <span>Multivitaminé</span>
+                <p>Un multivitaminé complet pour un soutien santé quotidien.</p>
+                <a href="/product-1" class="btn btn-get-started btn-sm">Plus de détails</a>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="member">
+              <a href="/product-1" class="stretched-link">
+                <img src="https://pim.doppelherz.ma/ma/51941/25674/image-thumb__25674__288x288_noalpha/4009932415193_DHA_Capilvit__Kap_30_fr_51941@1.5x.e0755d83.webp" class="img-fluid" alt="Aktiv Zinc Histidine">
+              </a>
+              <div class="member-content">
+                <h4>Aktiv Zinc Histidine</h4>
+                <span>Immunité</span>
+                <p>Soutien immunitaire avec une formule riche en zinc.</p>
+                <a href="/product-1" class="btn btn-get-started btn-sm">Plus de détails</a>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+            <div class="member">
+              <a href="/product-1" class="stretched-link">
+                <img src="https://pim.doppelherz.ma/ma/41341/25627/image-thumb__25627__288x288_noalpha/4009932414134_DHA_Aktiv_Slnium_Tbl_30_fr_41341@1.5x.2f977bb5.webp" class="img-fluid" alt="Kollagen Beauty">
+              </a>
+              <div class="member-content">
+                <h4>Kollagen Beauty</h4>
+                <span>Beauté</span>
+                <p>Collagène de qualité pour votre peau et articulations.</p>
+                <a href="/product-1" class="btn btn-get-started btn-sm">Plus de détails</a>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center mt-2">
+  <a href="/produits" class="btn btn-get-started btn-sm">Consulter plus de produits</a>
+</div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- Section Pourquoi nous choisir -->
+    <section id="why-choose-us" class="features section features-2">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Pourquoi choisir Mceutik</h2>
+        <p>Engagés pour votre santé avec une expertise inégalée.</p>
+      </div>
+      <div class="container">
+        <div class="row gy-4 justify-content-between">
+          <div class="features-image col-lg-4 d-flex align-items-center" data-aos="fade-up">
+            <img src="static/assets/img/csm_doppelherz.de_marke_herzlich_im_dialog_2f1d6d29b7.webp" class="img-fluid" alt="Qualité Mceutik">
+          </div>
+          <div class="col-lg-7 d-flex flex-column justify-content-center">
+            <div class="features-item d-flex" data-aos="fade-up" data-aos-delay="200">
+              <i class="bi bi-clock-history flex-shrink-0"></i>
+              <div>
+                <h4>Plus d’un siècle d’expérience</h4>
+                <p>Une expertise reconnue dans les compléments nutritionnels depuis 1922.</p>
+              </div>
+            </div>
+            <div class="features-item d-flex mt-5" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-clipboard-check flex-shrink-0"></i>
+              <div>
+                <h4>Formulations rigoureuses</h4>
+                <p>Basées sur des recherches scientifiques pour garantir des résultats optimaux.</p>
+              </div>
+            </div>
+            <div class="features-item d-flex mt-5" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-boxes flex-shrink-0"></i>
+              <div>
+                <h4>Variété de formes galéniques</h4>
+                <p>Adaptées à tous : comprimés, poudres, ampoules pour une prise facile.</p>
+              </div>
+            </div>
+            <div class="features-item d-flex mt-5" data-aos="fade-up" data-aos-delay="500">
+              <i class="bi bi-shield-lock flex-shrink-0"></i>
+              <div>
+                <h4>Engagement qualité</h4>
+                <p>Contrôle strict des matières premières pour une excellence garantie.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+
