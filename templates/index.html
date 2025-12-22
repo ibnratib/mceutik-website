@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block content %}
+  <!-- ================= HERO ================= -->
+  <section class="pt-32 pb-32 bg-gradient-to-br from-primary to-red-700 text-white">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+
+      <span class="inline-block mb-6 px-6 py-2 bg-white/20 rounded-full text-sm font-semibold">
+        Depuis 1922 – Expertise pharmaceutique
+      </span>
+
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-8 leading-tight">
+        De tout cœur pour <br class="hidden md:block"> votre santé
+      </h1>
+
+      <p class="text-xl text-white/90 max-w-3xl mx-auto mb-12">
+        Des compléments alimentaires scientifiquement formulés pour accompagner toute la famille au quotidien.
+      </p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-6">
+        <a href="#products" class="bg-white text-primary px-10 py-5 rounded-full font-bold hover:scale-105 transition shadow-xl">
+          Découvrir nos produits
+        </a>
+        <a href="#about" class="border-2 border-white px-10 py-5 rounded-full font-semibold hover:bg-white hover:text-primary transition">
+          Qui sommes-nous
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+
+      <img src="static/assets/img/csm_doppelherz.de_marke_gesundheit_fuer_die_ganze_familie_e86fdcf59c.webp"
+           class="rounded-3xl shadow-2xl">
+
+      <div>
+        <h2 class="text-4xl font-bold text-primary mb-6">À propos de Mceutik</h2>
+        <p class="text-lg text-gray-600 mb-8">
+          Depuis plus de 100 ans, Mceutik développe des compléments alimentaires de qualité pharmaceutique,
+          basés sur la recherche scientifique et l’innovation continue.
+        </p>
+
+        <ul class="space-y-4">
+          <li class="flex items-center gap-4">
+            <i class="bi bi-check-circle-fill text-primary text-xl"></i>
+            Expertise reconnue depuis 1922
+          </li>
+          <li class="flex items-center gap-4">
+            <i class="bi bi-check-circle-fill text-primary text-xl"></i>
+            Formulations validées scientifiquement
+          </li>
+          <li class="flex items-center gap-4">
+            <i class="bi bi-check-circle-fill text-primary text-xl"></i>
+            Qualité et sécurité des ingrédients
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+<!-- ================= GAMMES / PRODUITS ================= -->
+<section id="gammes" class="py-32 bg-white">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold text-primary mb-6">Nos gammes</h2>
+    <p class="text-gray-600 max-w-3xl mx-auto mb-16">
+      Explorez nos compléments alimentaires soigneusement conçus pour vos besoins de santé
+    </p>
+
+    <div class="grid md:grid-cols-4 gap-12">
+
+      <!-- Gamme 1 -->
+      <div class="bg-gray-50 rounded-3xl shadow-xl p-10 text-center hover:-translate-y-3 hover:shadow-2xl transition duration-300">
+        <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+          <i class="bi bi-capsule text-4xl text-primary"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4">Vitamines & Minéraux</h3>
+        <p class="text-gray-600">
+          Pour combler vos besoins quotidiens avec des micronutriments de haute qualité
+        </p>
+      </div>
+
+      <!-- Gamme 2 -->
+      <div class="bg-gray-50 rounded-3xl shadow-xl p-10 text-center hover:-translate-y-3 hover:shadow-2xl transition duration-300">
+        <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+          <i class="bi bi-droplet text-4xl text-primary"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4">Oméga-3 & Lipides</h3>
+        <p class="text-gray-600">
+          Soutien cardiovasculaire et cognitif avec des compléments oméga-3 premium
+        </p>
+      </div>
+
+      <!-- Gamme 3 -->
+      <div class="bg-gray-50 rounded-3xl shadow-xl p-10 text-center hover:-translate-y-3 hover:shadow-2xl transition duration-300">
+        <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+          <i class="bi bi-shield-check text-4xl text-primary"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4">Immunité</h3>
+        <p class="text-gray-600">
+          Renforcez vos barrières naturelles avec nos formulations pour l’immunité
+        </p>
+      </div>
+
+      <!-- Gamme 4 -->
+      <div class="bg-gray-50 rounded-3xl shadow-xl p-10 text-center hover:-translate-y-3 hover:shadow-2xl transition duration-300">
+        <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+          <i class="bi bi-brush text-4xl text-primary"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4">Beauté & Structure</h3>
+        <p class="text-gray-600">
+          Améliorez la peau, les cheveux et les articulations avec nos compléments
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <!-- ================= PRODUCTS ================= -->
+<!-- ================= PRODUCTS ================= -->
+<section id="products" class="py-32 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+
+    <h2 class="text-4xl font-bold text-primary mb-6">Produits phares</h2>
+    <p class="text-gray-600 max-w-3xl mx-auto mb-16">
+      Une sélection de nos compléments les plus appréciés pour répondre à vos besoins essentiels.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-12">
+           {% for produit in produits %}
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 overflow-hidden relative">
+
+        {% if produit.sticker == "Nouveau !" %}
+        <span class="absolute top-3 right-3 z-10 px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded-full">
+          Nouveau
+        </span>
+        {% endif %}
+
+        <a href="/produit/{{ produit.slug }}" target="_blank">
+          <img src="{{ produit.image_url }}"
+               alt="{{ produit.title }}"
+               loading="lazy"
+               class="w-full h-64 object-cover">
+        </a>
+
+        <div class="p-6">
+          <p class="text-xs text-gray-400 mb-1">{{ produit.brand }}</p>
+
+          <h4 class="text-lg font-bold text-gray-900 leading-snug mb-2">
+            {{ produit.title }}
+          </h4>
+
+          <p class="text-sm text-gray-600">{{ produit.type }}</p>
+          <p class="text-sm text-gray-600 mb-4">{{ produit.size }}</p>
+
+          <a href="/produit/{{ produit.slug }}"
+             target="_blank"
+             class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition">
+            Détails
+            <i class="bi bi-arrow-right text-sm"></i>
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- CTA tous les produits -->
+    <div class="mt-20">
+      <a href="/produits"
+         class="inline-flex items-center px-10 py-5 border-2 border-primary text-primary font-bold rounded-full hover:bg-primary hover:text-white transition">
+        Consulter tous les produits
+        <i class="bi bi-arrow-right ml-3"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ================= WHY US ================= -->
+  <section id="why" class="py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-primary mb-6">Pourquoi choisir Mceutik</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Une marque de confiance qui allie tradition, science et innovation pour votre bien-être quotidien.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+        <!-- Feature 1 -->
+        <div class="text-center hover:-translate-y-3 transition duration-300">
+          <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+            <i class="bi bi-clock-history text-4xl text-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-3">Plus d’un siècle d’expérience</h4>
+          <p class="text-gray-600">
+            Une expertise reconnue dans les compléments nutritionnels depuis 1922.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="text-center hover:-translate-y-3 transition duration-300">
+          <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+            <i class="bi bi-clipboard-check text-4xl text-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-3">Formulations rigoureuses</h4>
+          <p class="text-gray-600">
+            Basées sur des recherches scientifiques pour garantir des résultats optimaux.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="text-center hover:-translate-y-3 transition duration-300">
+          <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+            <i class="bi bi-boxes text-4xl text-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-3">Variété de formes galéniques</h4>
+          <p class="text-gray-600">
+            Adaptées à tous : comprimés, poudres, ampoules pour une prise facile.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="text-center hover:-translate-y-3 transition duration-300">
+          <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-primary/10 rounded-full">
+            <i class="bi bi-shield-lock text-4xl text-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-3">Engagement qualité</h4>
+          <p class="text-gray-600">
+            Contrôle strict des matières premières pour une excellence garantie.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}

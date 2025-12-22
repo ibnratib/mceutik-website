@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="pt-28 pb-16 bg-gradient-to-br from-primary to-red-700 text-white">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Nos Produits</h1>
+    <p class="text-lg text-white/90 max-w-2xl mx-auto mb-8">
+      Découvrez notre gamme complète de compléments alimentaires
+    </p>
+    <nav class="text-sm opacity-90">
+      <a href="/" class="hover:underline">Accueil</a>
+      <span class="mx-2">/</span>
+      <span class="text-white/80">Produits</span>
+    </nav>
+  </div>
+</section>
+
+<style>
+    p{
+        margin-top: 20px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-size: revert;
+        font-weight: revert;
+    }
+    /* Style pour la miniature active */
+
+    /* Optionnel : animation douce lors du changement */
+    #main-image {
+        transition: opacity 0.3s ease;
+    }
+
+</style>
+
+<main class="max-w-7xl mx-auto px-6 py-12">
+
+    <!-- Section principale produit -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+
+        <!-- Galerie d'images -->
+        <div class="space-y-6">
+            <!-- Image principale -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <img id="main-image" 
+                     src="{{ produit.images[2] }}" 
+                     alt="{{ produit.title }}" 
+                     class="w-full h-96 lg:h-full object-contain transition-opacity duration-300">
+            </div>
+
+            <!-- Miniatures -->
+            <div class="grid grid-cols-4 gap-4">
+                {% for img in produit.images[:3] %}
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition {{ 'thumbnail-active' if loop.index0 == 0 else '' }}"
+                     onclick="changeMainImage('{{ img }}', this)">
+                    <img src="{{ img }}" alt="Vue {{ loop.index }}" class="w-full h-32 object-contain">
+                </div>
+                {% endfor %}
+
+                <!-- Icônes spéciales (sans gluten, DEPOT, etc.) -->
+                {% if "gluten-free.svg" in produit.images %}
+                <div class="bg-white rounded-2xl shadow-md p-4 flex items-center justify-center">
+                    <img src="{{ produit.images[3] }}" alt="Sans gluten" class="h-16">
+                </div>
+                {% endif %}
+                {% if "depot_icon" in produit.images %}
+                <div class="bg-white rounded-2xl shadow-md p-4 flex items-center justify-center">
+                    <img src="{{ produit.images[-1] }}" alt="Technologie DEPOT" class="h-16">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Informations produit -->
+        <div class="flex flex-col justify-center">
+            <p class="text-gray-500 text-sm mb-2">{{ produit.brand }}</p>
+            <h1 class="text-4xl lg:text-5xl font-bold mb-4">{{ produit.title }}</h1>
+            {% if produit.category %}
+            <span class="inline-block px-4 py-1 mb-4 text-sm font-semibold text-primary bg-primary/10 rounded-full uppercase tracking-wider">
+                {{ produit.category }}
+            </span>
+            {% endif %}
+            <p class="text-xl text-gray-700 mb-8">{{ produit.subtitle }}</p>
+
+            <!-- Points forts -->
+            <div class="mb-10">
+                <h3 class="text-2xl font-semibold mb-4">Points forts</h3>
+                <ul class="space-y-3">
+                    {% for feature in produit.features %}
+                    <li class="flex items-start">
+                        <i class="bi bi-check-circle-fill text-green-600 mt-1 mr-3 flex-shrink-0"></i>
+                        <span class="text-gray-700">{{ feature }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section description détaillée -->
+    <div class="bg-white rounded-3xl shadow-xl p-10 lg:p-16">
+        <div class="prose max-w-none prose-lg prose-gray">
+            {{ produit.information_html | safe }}
+        </div>
+<!-- 
+        {% if produit.images[4:] and not "svg" in produit.images[4] %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            {% for img in produit.images[4:6] %}
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+                <img src="{{ img }}" alt="Illustration" class="w-full h-80 object-cover">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %} -->
+    </div>
+</main>
+
+<!-- Script pour le changement d'image -->
+<script>
+    function changeMainImage(newSrc, thumbnailElement) {
+        const mainImage = document.getElementById('main-image');
+        
+        // Change l'image principale
+        mainImage.src = newSrc;
+        
+        // Retire la classe active de toutes les miniatures
+        document.querySelectorAll('[onclick^="changeMainImage"]').forEach(el => {
+            el.classList.remove('ring-4', 'ring-primary', 'ring-offset-4');
+        });
+        
+        // Ajoute la classe active à la miniature cliquée
+        thumbnailElement.classList.add('ring-4', 'ring-primary', 'ring-offset-4');
+    }
+
+    // Optionnel : au chargement, s'assurer que la première miniature est marquée comme active
+    document.addEventListener('DOMContentLoaded', () => {
+        const firstThumbnail = document.querySelector('[onclick^="changeMainImage"]');
+        if (firstThumbnail) {
+            firstThumbnail.classList.add('ring-4', 'ring-primary', 'ring-offset-4');
+        }
+    });
+</script>
+
+{% endblock %}

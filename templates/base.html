@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% include 'head.html' %}
+<body class="index-page">
+{% include 'header.html' %}
+  <main class="main">
+    {% block content %}{% endblock %}
+    {% include 'contact.html' %}
+  </main>
+{% include 'footer.html' %}
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+ {% include 'scripts.html' %}
+</body>
+</html>
